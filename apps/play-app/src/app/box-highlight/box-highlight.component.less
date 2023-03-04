@@ -1,0 +1,21 @@
+.main_content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  .card {
+    min-width: 350px;
+    height: 280px;
+    background: #bbb;
+    border: 2px solid grey;
+    border-radius: 10px;
+    &:hover {
+      .activated();
+    }
+  }
+}
+
+.activated {
+  box-shadow: 0 0 10px 1px gold;
+  border-color: rgb(160, 160, 8);
+}

@@ -1,0 +1,10 @@
+<h1>MongoDB</h1>
+
+<div>
+  <div *ngFor="let entry of data$ | async">{{ entry }}</div>
+</div>
+
+<form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
+  <input formControlName="data" />
+  <button type="submit">Submit</button>
+</form>
