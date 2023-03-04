@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { DataService } from '../data.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject, map, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'rosem-playground-entry-create-read',
@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class EntryCreateReadComponent implements OnInit {
   public entryForm: FormGroup;
+  private ngUnsubscribe: Subject<void>;
 
   public get formData() {
     return this.entryForm.get('data');
@@ -24,6 +25,7 @@ export class EntryCreateReadComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.ngUnsubscribe = new Subject<void>();
     this.entryForm = this.formBuilder.group({
       data: '',
     });
@@ -33,8 +35,27 @@ export class EntryCreateReadComponent implements OnInit {
   public onSubmit(): void {
     const value = this.formData?.value;
     if (value && value !== '') {
-      this.dataService.create(value);
+      this.dataService
+        .create(value)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe({
+          next: (data) => {
+            console.log(data);
+            this.data$ = this.dataService.load();
+          },
+          error: (error) => {
+            console.log(error);
+          },
+          complete: () => {
+            console.log('Subscription finished');
+          },
+        });
       this.formData?.setValue('');
     }
+  }
+
+  public ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

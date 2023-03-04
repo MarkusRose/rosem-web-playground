@@ -1,29 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, map, of, tap } from 'rxjs';
+import { HttpClient, HttpRequest } from '@angular/common/http';
+import { WeekDays } from '@rosem-playground/api-interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  private data: string[];
+  private data$: Observable<WeekDays>;
+  private url: string;
 
-  constructor() {
-    this.data = [
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday',
-    ];
+  constructor(private readonly http: HttpClient) {
+    this.url = 'http://localhost:3333/api/days';
   }
 
   public load(): Observable<string[]> {
-    return of(this.data);
+    this.data$ = this.http.get<WeekDays>(this.url);
+    return this.data$.pipe(map((data) => data.days));
   }
 
-  public create(value: string) {
-    this.data.push(value);
+  public create(name: string): Observable<any> {
+    console.log(`Want to add data with value: ${name}`);
+    return this.http.post(this.url, { value: name });
   }
 }
