@@ -6,11 +6,14 @@ import { MongoClient, ServerApiVersion } from 'mongodb';
 export class AppService {
   weekDays: string[];
   db_uri: string;
+  user: string;
+  password: string;
 
   constructor() {
+    this.user = '';
+    this.password = '';
     this.weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    this.db_uri =
-      'mongodb+srv://markusmrose:mothball-placate-december-vista-monsoon-angling@sandbox.diqjrsw.mongodb.net/?retryWrites=true&w=majority';
+    this.db_uri = `mongodb+srv://${this.user}:${this.password}@sandbox.diqjrsw.mongodb.net/?retryWrites=true&w=majority`;
   }
 
   public getData(): Message {
