@@ -14,13 +14,13 @@ export class AppController {
   }
 
   @Get('days')
-  getWeekDaysData(): WeekDays {
-    return this.appService.getWeekDays();
+  async getWeekDaysData(): Promise<WeekDays> {
+    return await this.appService.getWeekDays();
   }
 
   @Post('days')
-  postSingleWeekDay(@Body('value') value: string): string {
-    this.appService.addWeekDay(value);
+  async postSingleWeekDay(@Body('value') value: string): Promise<string> {
+    await this.appService.addWeekDay(value);
     return JSON.stringify({ result: `Day \"${value}\" added.` });
   }
 }
