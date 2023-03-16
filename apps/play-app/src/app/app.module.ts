@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { EntryCreateReadComponent } from './entry-create-read/entry-create-read.component';
 import { BoxHighlightComponent } from './box-highlight/box-highlight.component';
+import { ScreenSizeComponent } from './screen-size/screen-size.component';
 
 const routes: Routes = [
   {
@@ -18,14 +19,23 @@ const routes: Routes = [
     component: BoxHighlightComponent,
   },
   {
+    path: 'screen',
+    component: ScreenSizeComponent,
+  },
+  {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/database',
+    redirectTo: '/screen',
   },
 ];
 
 @NgModule({
-  declarations: [AppComponent, EntryCreateReadComponent, BoxHighlightComponent],
+  declarations: [
+    AppComponent,
+    EntryCreateReadComponent,
+    BoxHighlightComponent,
+    ScreenSizeComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
