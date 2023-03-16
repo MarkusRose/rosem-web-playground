@@ -1,0 +1,14 @@
+<h1>Treasure hunt</h1>
+
+<p>Do you want to hunt for some treasure?</p>
+<mat-checkbox [formControl]="huntTreasureForm">Sign me up!</mat-checkbox>
+<button type="button" (click)="onSubmit()">Submit</button>
+
+<p>Current answer: {{ huntTreasureForm.value }}</p>
+<p>Current choice in the store: {{ treasureChoice$ | async }}</p>
+<p>My opinion: {{ opinion$ | async }}</p>
+<input
+  [formControl]="treasureOpinionForm"
+  placeholder="My opinion"
+  (ngModelChange)="onChange($event)"
+/>
